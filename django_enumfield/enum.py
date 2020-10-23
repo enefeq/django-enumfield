@@ -57,6 +57,11 @@ class Enum(six.with_metaclass(EnumType)):
             else:
                 raise TypeError('Can not compare Enum with %s' % other.__class__.__name__)
 
+        # In Python3, if you define __eq__ you lose the default hash() implementation.
+        # Specify one here based on the value itself.
+        def __hash__(self):
+            return hash(self.value)
+
         @property
         def label(self):
             return self._label or self.name
